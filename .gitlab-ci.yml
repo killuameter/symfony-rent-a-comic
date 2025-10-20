@@ -1,0 +1,76 @@
+image: jakzal/phpqa:php8.1
+
+before_script:
+  - apt-get update
+  - apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+  - docker-php-ext-configure gd --with-freetype --with-jpeg
+  - docker-php-ext-install -j "$(nproc)" gd
+  - composer install
+
+cache:
+  paths:
+    - vendor/
+
+stages:
+  # For this 6.1 Symfony project, which is not my real project in prod (Symfony 7.3.3+ in prod),
+  # I temporarily commented the SecurityChecker stage. I Will update this project to be the same
+  # as the one in prod, but need to hide some deployment secrets first. 
+  # Then, I will be able to run the SecurityChecker stage and uncomment it.
+  #- SecurityChecker
+  - CodingStandards
+  - Tests
+
+# security-checker:
+#   stage: SecurityChecker
+#   script:
+#     - local-php-security-checker  --path=./composer.lock
+#   allow_failure: false
+
+phpcs:
+  stage: CodingStandards
+  script:
+    - phpcs -v --standard=PSR2 --ignore=./src/Kernel.php,./src/Migrations/* ./src
+  allow_failure: false
+
+phpstan:
+  stage: CodingStandards
+  script:
+    - phpstan analyse ./src
+  allow_failure: false
+
+twig-lint:
+  stage: CodingStandards
+  script:
+    - twig-lint lint ./templates
+  allow_failure: false
+
+phpunit:
+  image: php:8.1-apache
+  stage: Tests
+  services:
+    - name: mysql:5.7
+      alias: mysql
+  variables:
+    MYSQL_ROOT_PASSWORD: pass_test
+    MYSQL_DATABASE: myapptest
+    MYSQL_USER: myapptest
+    MYSQL_PASSWORD: myapptest
+    DATABASE_URL: 'mysql://myapptest:myapptest@mysql:3306/myapptest'
+  before_script:
+    - apt-get update && apt-get install -y git libzip-dev nodejs npm
+    - curl -sSk https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
+    - docker-php-ext-install mysqli pdo pdo_mysql zip
+    - apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev
+    - docker-php-ext-configure gd --with-freetype --with-jpeg
+    - docker-php-ext-install -j "$(nproc)" gd
+    - php bin/console doctrine:database:drop --force --env=test
+    - php bin/console doctrine:database:create --env=test
+    - php bin/console doctrine:migration:migrate --env=test --no-interaction
+    - php bin/console doctrine:fixtures:load --no-interaction
+    - npm install
+    - export NODE_OPTIONS=--openssl-legacy-provider
+    - npm run build
+    - composer install
+  script:
+    - php bin/phpunit
+  allow_failure: false

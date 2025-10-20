@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  database:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: myapptest
+      MYSQL_DATABASE: myapptest
+    ports:
+      - '3306'
+
+volumes:
+  data:
+  db-volume:

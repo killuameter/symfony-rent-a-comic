@@ -1,0 +1,9 @@
+framework:
+    router:
+        utf8: true
+
+#supprimer:
+#    path: /supprimer
+#    controller: App\Controller\PanierController::supprimerP
+#    requirements:
+#        methods: POST

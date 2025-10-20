@@ -1,0 +1,153 @@
+{% extends "base.html.twig" %}
+
+{% block body %} 
+    <h2 class="catalogueh2"> Catalogue </h2>
+    <div class="row">
+        <div class="col-md-2 col-xs-12">
+            <div class="filtres">
+                <h3>Filtres</h3>
+                <h4> Catégories </h4>
+                <form method="get">
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="1"> Science-fiction
+                        </label>
+                    </div>
+                    <div class="checkbox" value="option1">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="2"> Aventure
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="3"> Polar/Thriller
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="4"> Historique
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="5"> Jeunesse
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="6"> Humour
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="7"> Manga
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="8"> Biographie
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="9"> Indépendant
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="10"> Érotique
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="11"> Comics
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="12"> Divers
+                        </label>
+                    </div>
+                    <h4> Disponibilité </h4>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="1"> Disponible
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="choix[]" value="s2"> Indisponible
+                        </label>
+                    </div>
+                    <h4> Recherche </h4>
+                    <input type="text" class="form-control" id="recherche" name="motclef" placeholder="mots-clefs" />
+                    <input type="submit" class="btn btn-default" id="btsearch">
+                </form>                
+            </div>    
+        </div>
+        <div class="col-md-10 col-xs-12 listeOf">
+            <div class="resultats">
+                <h3>Résultats</h3>
+                <div class="dropdown">    
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        Trier par..
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Titre</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Auteur</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Date de parution</a></li>
+                    </ul>
+                </div>                
+                <div class="dropdown">    
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true"><span class="nb-orig">Nombre de BD à afficher</span><span class="nb-resp">Nb de BD à afficher</span><span class="nb-resp-min">Nb à afficher</span><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Afficher 10 résultats</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Afficher 20 résultats</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Afficher 30 résultats</a></li>
+                    </ul>
+                </div>
+                <div class="pagi">
+                    <ins>{{ paginationResults.nowShowingMin }} à {{ paginationResults.nowShowingMax }} sur {{ paginationResults.total }}</ins>
+                    <ul class="pagination">
+                        {% if paginationResults.prevPage %}
+
+                        <li><a href="{{ path('catalogue', {page: paginationResults.prevPage}) }}"><span class="pre-orig">Précédent</span><span class="pre-resp"><</span></a></li>
+
+                        {% endif %}
+
+                        {% for i in paginationResults.numLinkMin..paginationResults.numLinkMax %}
+                        <li><a href="{{ path('catalogue', {'page' : i}) }}">{{i}}</a></li>
+                        {% endfor %}
+
+                        {% if paginationResults.nextPage %}
+
+                        <li><a href="{{ path('catalogue', {page: paginationResults.nextPage}) }}"><span class="sui-orig">Suivant</span><span class="sui-resp">></span></a></li>
+
+                        {% endif %}
+                    </ul>
+                </div>        
+            </div>
+            <div>                    
+                {%for bd in paginationResults.data %}
+                    <div class="col-md-5 resultatsBd ">
+                        <img src="{{ asset('Couvertures/'~ bd.cover) }}" class="img-resized" alt="{{bd.title}}">
+                        <div class="description">
+                            <p class="p-resp">{{bd.title}}</p><br>
+                            <ins> Auteurs: </ins>
+                            {%for author in bd.rel%}
+                                <p class="hyphen p-resp">{{author.authors.firstname ~" "~ author.authors.lastname}}</p>
+                            {%endfor%}<br>                            
+                            <a href="{{ path("details", { "slug":bd.slug }) }}" class="btn btn-info resp-details" id="btdetail">Details</a><br>
+                            <a href="{{path('ajoutPa',{'slug' : bd.slug})}}" class="btn btn-primary hyphen resp-button resp-button-tmp" id="btpannier">Ajouter Au Panier</a>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                {%endfor%}                    
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>    
+{% endblock %} 

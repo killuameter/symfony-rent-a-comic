@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Transaction | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="contentHeight">
+    <h2> Détails de la transaction : </h2>    
+    <table class="table">    
+        <tr>
+            <th>Id</th>
+            <th>Date du paiement</th>
+            <th>Montant</th>
+            <th>Etat</th>
+            <th>Id Transaction</th>
+            <th>Message</th>
+        </tr>
+        {#{% for fine in fines %}#}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.dateValidationBq|date("d/m/Y") }}</td>
+                <td>{{ transaction.amount}}</td>
+                <td>{{ transaction.status}}</td>
+                <td>{{ transaction.transactionId}}</td>
+                <td>{{ transaction.message}}</td>
+            </tr>
+        {#{% endfor %}#}
+    </table>
+</div>
+{% endblock %}

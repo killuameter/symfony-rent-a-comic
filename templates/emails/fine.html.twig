@@ -1,0 +1,9 @@
+{% extends 'email.html.twig' %}
+
+{% block main_content %}
+    Bonjour {{ first }} {{ last }},<br>
+    Merci pour le paiement de votre amende.<br>
+    Le montant de {{ amount }} € a été retiré de votre compte.
+
+{% endblock %}
+

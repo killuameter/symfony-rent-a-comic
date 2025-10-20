@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Bienvenue sur Rent-a-Comic{% endblock %}</title>
+{% block stylesheets %}
+        <link rel="preload" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"></noscript>
+        {{ encore_entry_link_tags('app') }}
+{% endblock %}
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+{% if app.request.attributes.get('_route') == 'panier' %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+{% endif %}
+{% if app.request.attributes.get('_route') == 'confirmP' %}
+        <script type="text/javascript"src="https://maps.googleapis.com/maps/api/js?key=AIza-----NOPE------W3Ws"></script>
+{% endif %}
+    </head>
+    <body>
+        <header class="col-md-12 col-xs-12 col-sm-12 col-lg-12 pad-resp">
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 no-padding">
+                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 no-padding">
+                    <h2 class="megaTitle h2resp">Rent-A-Comic</h2>
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6 no-padding">
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <h4 class="hello h4resp">Bonjour {{ app.user.firstname}} {{ app.user.lastname}}</h4>
+{% endif %}
+                </div>
+            </div>
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 no-padding">
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 no-padding">
+                <nav id="nav">
+                    <ul id="menu" class="btn-group no-pad-left" role="group" aria-label="...">
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path('home') }}" title="BDloc | Accueil">Accueil</a>
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path('catalogue') }}" title="Catalogue">Catalogue</a>
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path('panier') }}" title="Panier">Mon Panier
+                        <span class="badge">{%if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                                {% set counter = 0%}
+                                                {%for cart in app.user.carts %}
+                                                    {%if cart.status == "En Cours de Commande" %}
+                                                        {%for book in cart.books%}
+                                                            {% set counter = counter + 1 %}
+                                                        {%endfor%}
+                                                    {%endif%}
+                                                {%endfor%}
+                                                {{counter}}
+                                            {%endif%}</span>
+                        </a>
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path("user_details", {"slug":app.user.slug}) }}" title="Profil">Profil</a>
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path('logout') }}" title="Déconnexion">Se déconnecter</a>
+{% else %}
+                        <a class="btn btn-default pad-resp font-resp" href="{{ path('app_login') }}" title="Panier">Se connecter</a>
+{% endif %}
+                    </ul>
+                </nav>
+                </div>
+            </div>
+{% block header %}{% endblock %}
+        </header>
+        <div class="container col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <section>
+                {% block body %}{% endblock %}
+            </section>
+        </div>
+        <footer class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            {% block footer %}
+                <ins class="col-md-12 col-xs-12 col-sm-12 col-lg-12">A Symfony {{ my_version }} project dev by Jean-Philippe Parmentier</ins><br>
+                <span class="col-md-12 col-xs-12 col-sm-12 col-lg-12">&copy;copyright 2015-{{ 'now' | date('Y') }} Rent-A-Comic</span>
+            {% endblock %}
+        </footer>
+        {% block javascripts %}
+
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Amendes | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="contentHeight">
+    <h2> Historique de vos amendes : </h2>
+    <table class="table">    
+        <tr>
+            <th>Id</th>
+            <th>Montant</th>
+            <th>Type de l'amende</th>
+            <th>Etat</th>
+            <th>Payer</th>
+        </tr>
+        {% for fine in fines %}
+            <tr>
+                <td>{{ fine.id }}</td>
+                <td>{{ fine.amount }}</td>
+                <td>{{ fine.motif}}</td>
+                <td>{{ fine.status}}</td>
+                {% if fine.status == 'Non payée' %}
+                    {#<td><a id="payer" class="btn btn-primary" href="{{path('inscription')}}" title="Payer l'amende">Payer</a></td>#}
+                    <td><a id="payer" class="btn btn-primary" href="{{path('payment_action', {"fine":fine.id}) }}" title="Payer l'amende">Payer</a></td>
+                    
+                {#<td><a id="payer" class="btn btn-primary" href="{{path('inscription')}}">Payer</a></td>#}
+                {% else %}
+                        <td><a id="voir" class="btn btn-success" href="{{ path("transac_details", {"fine":fine.id}) }}" title="Voir le détail de la transaction">Voir</a></td>
+                    {#<td><a id="payer" class="btn btn-primary" href="{{path('inscription')}}">Payer</a></td>#}
+                {% endif %}
+            </tr>
+        {% endfor %}    
+    </table>
+</div>
+{% endblock %}
+

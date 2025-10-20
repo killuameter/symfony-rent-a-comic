@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}    
+        <div class="contentHeight">
+        <h2 class="h2resp">Louez des Bd Gratuitement</h2>
+        <h3 class="h3resp">Rent-A-Comic la location de BD nouveau genre :</h3>
+        <h4 class="h4resp">100% en ligne, 100% gratuit, 100% moderne.</h4>
+        <h3 class="h3resp">Un site proposé par la mairie.</h3>
+        {%if app.user %}
+            
+        {%else%}
+            <div class="containBout">
+                <a id="abonne" class="btn btn-primary btn-lg" href="{{path('inscription')}}">ABONNEZ-VOUS</a>
+            </div>
+        {%endif%}
+        </div>
+{% endblock %}

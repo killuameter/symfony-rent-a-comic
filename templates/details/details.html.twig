@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2> Info sur le livre </h2>
+    <article>
+        <h3 class="details_title">{{ bd.title }}</a></h3>
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 resp-no-pad">
+            <img src="{{ asset('Couvertures/'~ bd.cover) }}" class="img-resized3 col-xs-12 no-padding" alt="{{bd.title}}">
+            <div class="description2 col-xs-12 no-padding">
+                <ins> Auteurs: </ins>
+                {%for author in bd.rel%}
+                    <p>{{author.authors.firstname ~" "~ author.authors.lastname}}</p>
+                {%endfor%}
+                <ins> Editeur: </ins>
+                <p>{{ bd.editor }}</p>
+                <ins> Episode de la série: </ins>
+                <p>numéro {{ bd.seriePosition }}</p>                
+                <ins> Catégorie de la série : </ins>
+                {%for category in bd.serie.categories%}
+                    <p>{{ category.categoryName }}</p>
+                {%endfor%}                
+                <ins> Résumé : </ins>
+                {%for serie in bd.serie%}
+                    <p>{{ serie.description }}</p>
+                {%endfor%}
+            </div>
+        </div>
+    </article>
+{% endblock %}

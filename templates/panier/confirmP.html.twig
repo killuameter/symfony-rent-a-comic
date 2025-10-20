@@ -1,0 +1,164 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h2 class="catalogueh2"> Choississez votre point relais </h2>
+ <div class="col-md-6 col-xs-12 col-sm-8 col-lg-5">
+    <div id="map-canvas"></div>
+ </div>
+<div class="col-md-6 col-xs-12 col-sm-4 col-lg-7 no-padding">
+    <h4>En cours de dev, non terminé. <br>Sélectionnez un des points relais fictifs (générés aléatoirement dans Paris). <br><br>Pour tester d'autres fonctionnalités rendez vous sur le profil où vous pourrez payer des pénalités pour toutes BD rendues en retard.<br><br>Des commandes aléatoires ont été générées si vous avez créé un nouvel utilisateur.</h4>
+</div>
+    
+    
+{%endblock%}
+
+{% block javascripts %}
+<script type="text/javascript">
+    
+    var pickupSpot = [{%for pickupSpot in pickSpots %}
+                            ["{{pickupSpot.storeName}}",{{pickupSpot.latitude}},{{pickupSpot.longitude}},1],
+                        {%endfor%}
+                    ];
+    var pos;
+    var lat;
+    var lng
+    var map;
+    var marker;
+    
+    function setMarkers(map, locations) {
+        // Add markers to the map
+
+        // Marker sizes are expressed as a Size of X,Y
+        // where the origin of the image (0,0) is located
+        // in the top left of the image.
+
+        // Origins, anchor positions and coordinates of the marker
+        // increase in the X direction to the right and in
+        // the Y direction down.
+        var image = {
+          url: "{{asset('image/supermarket.png')}}",
+          // This marker is 20 pixels wide by 32 pixels tall.
+          //size: new google.maps.Size(20, 32),
+          // The origin for this image is 0,0.
+          origin: new google.maps.Point(0,0),
+          // The anchor for this image is the base of the flagpole at 0,32.
+          anchor: new google.maps.Point(0, 32)
+        };
+        // Shapes define the clickable region of the icon.
+        // The type defines an HTML &lt;area&gt; element 'poly' which
+        // traces out a polygon as a series of X,Y points. The final
+        // coordinate closes the poly by connecting to the first
+        // coordinate.
+        var shape = {
+            coords: [1, 1, 1, 20, 18, 20, 18 , 1],
+            type: 'poly'
+        };
+        for (var i = 0; i < locations.length; i++) {
+          var beach = locations[i];
+          var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+          var marker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              icon: image,
+              shape: shape,
+              title: beach[0],
+              zIndex: beach[3]
+          });
+        }
+}
+
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+    }
+
+    function initMap() {
+//        var map = new google.maps.Map(document.getElementById('map'), {
+//            center: {lat: -34.397, lng: 150.644},
+//            zoom: 6
+//        });
+//        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                lat= position.coords.latitude;
+                lng= position.coords.longitude;
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+//                infoWindow.setPosition(pos);
+//                infoWindow.setContent('Location found.');
+                initialize()
+                //map.setCenter(pos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
+
+    function relocate() {
+
+        marker.setMap(null);
+        marker = new google.maps.Marker({
+            //position: userLatLng,
+            position: pos,
+            map: map,
+            title: 'Votre Adresse'
+        });
+        map.setCenter(pos);
+
+    }
+    function initialize() {
+          
+        var userLatLng = new google.maps.LatLng({{app.user.latitude}},{{app.user.longitude}});
+
+        var mapOptions = {
+          center: userLatLng,
+          //center: pos,
+          zoom: 13
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+            
+            marker = new google.maps.Marker({
+                position: userLatLng,
+                //position: pos,
+                map: map,
+                title: 'Votre Adresse'
+        });
+        
+            setMarkers(map, pickupSpot);
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                lat= position.coords.latitude;
+                lng= position.coords.longitude;
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+//                infoWindow.setPosition(pos);
+//                infoWindow.setContent('Location found.');
+                relocate()
+                //map.setCenter(pos);
+            }, function() {
+                //handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            //handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+{% endblock %}

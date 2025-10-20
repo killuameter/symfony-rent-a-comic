@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Profil | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h2> Votre Profil </h2>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-md-5 control-label">Utilisateur :</label>
+    <div class="col-md-7">
+      <p class="form-control-static">{{ user.firstName }} {{ user.lastName }}</p>
+    </div>
+    <label class="col-md-5 control-label">Pseudo : </label>
+    <div class="col-md-7">
+      <p class="form-control-static"> {{ user.nickname }} </p>
+    </div>    
+    <label class="col-md-5 control-label">Argent disponible : </label>
+    <div class="col-md-7">
+      <p class="form-control-static">{{ user.myMoney }} €</p>
+    </div>        
+    <label class="col-md-5 control-label">Adresse : </label>
+    <div class="col-md-7">
+      <p class="form-control-static">{{ user.address }}</p>
+    </div>       
+    <label class="col-md-5 control-label">Ville : </label>
+    <div class="col-md-7">
+      <p class="form-control-static"> {{ user.postalCode }} {{ user.city }}</p>
+    </div>     
+    <label class="col-md-5 control-label">Téléphone : </label>
+    <div class="col-md-7">
+      <p class="form-control-static">{{ user.tel }}</p>
+    </div>     
+  </div>
+</form>    
+        <article>
+            {#<p>Utilisateur : {{ user.firstName }} {{ user.lastName }}</p>
+            <p>Pseudo : {{ user.nickname }} </p>
+            <p>E-mail : {{ user.email }} </p>
+            <p>Argent disponible sur rent a comic : {{ user.myMoney }} €</p>
+            <p>Adresse : {{ user.address }}</p>   
+            <p>Ville : {{ user.postalCode }} {{ user.city }}</p>
+            <p>Téléphone : {{ user.tel }}</p>
+            <input type="radio" name="choix" value="mi"
+                {% if user.subscriber == 1 %}
+                    checked
+                {% endif %}
+            %} disabled
+            >Abonné<br>#}
+            <h2> Historique de vos commandes : </h2>
+            <div class="table-responsive">
+              <table class="my-orders table table-condensed table-bordered tableStyle">
+                <tbody>
+                  <tr>
+                  <th>Id</th><th>Date Commande</th><th>Etat</th><th>Date de retour</th><th>Date retour réel</th><th>Amendes</th><th>Bd</th>
+                  </tr>
+                  {% for cart in user.carts %}
+                  <tr>
+                  <td>{{ cart.id }}</td><td>{{ cart.dateCreated|date("d/m/Y") }}</td><td>{{ cart.status }}</td><td>{{ cart.dateToBeReturn|date("d/m/Y") }}</td><td>
+                      {% if cart.dateReallyReturned == false  %}  {% else %} {{ cart.dateReallyReturned|date("d/m/Y") }} {% endif %}
+                  </td><td>
+                      {% set fineText = 'Non' %}
+                      {% for fine in cart.fines %}                        
+                          {% if fine.id %}
+                              {#{{ cart.id }}#}
+                              {% set fineText = 'Oui' %}
+                          {% else %}
+                          {% endif %}
+                      {% endfor %}
+                      {% if fineText == 'Oui' %}
+                          {#<a href="{{ path("fine_details", {"cart":cart.id}) }}" title="Voir">Oui</a>#}
+                          {#<a href="{{ path("home") }}" title="Voir">Oui</a>#}
+                          <a href="{{ path("fine_details", {"cart":cart.id}) }}" title="Voir">Oui</a>                        
+                      {% else %}
+                          {{ fineText }}
+                      {% endif %}
+                      
+                      </td>
+                      {% set authorList = [] %}
+                      <td>
+                      {% for book in cart.books %}                        
+                              {%for author in book.rel%}
+                                  {% set authorList = authorList|merge([author.authors.firstname ~" "~ author.authors.lastname]) %}
+                              {%endfor%}                            
+                              <img src="{{ asset('Couvertures/'~ book.cover) }}" title="Livre : {{ book.title }}. Auteurs : {{ authorList|join(', ') }}." class="img-resized2" alt="{{book.title}}">
+                              {% set authorList = [] %}        
+                      {% endfor %}
+                      </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              </div>
+        </article>
+{% endblock %}

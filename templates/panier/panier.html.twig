@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+
+{% block body %} 
+    <div class="contentHeight">
+        <h2> Votre Panier </h2>
+        <table class="table">
+            <tr>
+                <th>N°de Commande</th>
+                <th>Livre</th>
+                <th>Status</th>
+            </tr>
+            {%if counter == 0 %}
+                <tr><td colspan="3" >AUCUNE COMMANDE</td></tr>
+            {%else%}
+                    <tr id="{{cart.id}}">
+                        <td>{{cart.id}}</td>
+                        <td>
+                            {%for book in cart.books%}
+                                <span id="{{cart.id~book.id}}">
+                                    <img src="{{asset('Couvertures/'~book.cover)}}" alt="{{book.title}}" class="img-resized2" >
+                                    {{book.title}}
+                                    <a href="#" id="Supprimer" bookId="{{book.id}}" class="btn btn-danger" >X</a><br>
+                                </span>
+                            {%endfor%}
+                        </td>
+                        <td>{{cart.status}}</td>
+                    </tr>
+        {%endif%}
+        </table>
+        
+        {%if counter != 0 %}
+            <a id="Commander" href="{{path('confirmP',{'cartId':cart.id})}}" class="btn btn-info" >Commander</a>
+        {%endif%}
+        
+        
+        <div id="error"></div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        $(document).on('click','#Supprimer',function(){
+            
+            id = $(this).parent().parent().parent().attr('id');
+            bookId = $(this).attr('bookId')
+            $('#'+id+bookId).slideUp('slow',function(){
+                $('.badge').text($('.badge').text()-1);
+                    if($('.badge').text() == 0){
+                        $('#'+id).slideUp();
+                        $('#'+id).remove();
+                        $('#Commander').hide();
+                        $('table tr').after('<tr><td colspan="3" >AUCUNE COMMANDE</td></tr>');
+                    }
+                $('#'+id+bookId).remove();
+                $.post('{{path('supprimer')}}',{'cartId': id,'bookId':bookId},function(r){
+                    $('#error').append(r)
+                });
+            });
+           
+            
+            
+        });
+        
+        
+        
+        
+        
+    </script>
+{%endblock%}
